@@ -1,0 +1,33 @@
+private Rigidbody2D rbody;
+    // Start is called before the first frame update
+    private void Start()
+    {
+        rbody = GetComponent<Rigidbody2D>();
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        /*
+         * //it's hardcoded 
+        if (Input.GetKeyDown("w"))
+        {
+            rbody.velocity = new Vector3(0, 7, 0); 
+            
+                Debug.Log("Jump started");
+        }
+        */
+
+        // It's work on unity input Manager 
+        float moveX = Input.GetAxisRaw("Horizontal"); //if we don't want to slide so then we use raw
+        rbody.velocity = new Vector2(moveX * 5f, rbody.velocity.y);
+        if (Input.GetButtonDown("Jump"))
+        {
+            /*
+             replace the zero from rbody.velocity.x
+             rbody.velocity = new Vector2(0, 7f);
+            */
+            rbody.velocity = new Vector2(rbody.velocity.x, 7f);
+            Debug.Log("Jump started");
+        }
+    }
