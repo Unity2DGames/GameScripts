@@ -1,0 +1,57 @@
+ private Rigidbody2D rbody;
+    private Animator anim;
+    private SpriteRenderer sprite;
+    private float moveX;
+    private float jumpForce = 7f;
+    private float moveSpeed = 5f;
+
+    private enum MovementState{idel, jump ,runing, falling}
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
+        rbody = GetComponent<Rigidbody2D>();
+    }
+
+
+/* we have to make a parameters name state it's gonna be int 
+then use enum for index 
+every index state need to be equal to the index numbes 
+Like :
+state =0 for idel ;
+every nodes which is return to idle like after jump or run and falling 
+like that same follows with others animation 
+https://cdn.discordapp.com/attachments/899306539200954418/907999575615373312/unknown.png
+
+every animation need to off their Has Exit Time and 
+need to give the value of Transition Durations 0.
+https://cdn.discordapp.com/attachments/899306539200954418/908000287632023552/unknown.png
+*/
+private void UpdateAnimation()
+    {
+        MovementState state;
+        if (moveX > 0f)
+        {
+            state = MovementState.runing;
+            sprite.flipX = false;
+        }
+        else if (moveX < 0f)
+        {
+            state = MovementState.runing;
+            sprite.flipX = true;
+        }
+        else
+        {
+            state = MovementState.idel;
+        }
+        if(rbody.velocity.y > .1f)
+        {
+            state = MovementState.jump;
+        }
+        else if(rbody.velocity.y < -.1f)
+        {
+            state = MovementState.falling;
+        }
+        anim.SetInteger("state", (int)state);
+    }
+
